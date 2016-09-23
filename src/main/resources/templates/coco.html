@@ -1,0 +1,74 @@
+<html ng-app="TIYCocoAngularApp">
+<!--
+{{! changing the mustache delimiter so it doesn't conflict with  }}
+{{! the default angularjs delimiters - https://mustache.github.io/mustache.5.html for more info  }}
+{{=<% %>=}}
+-->
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> <!--We bring in Angluar here; gets the generic libraries-->
+    <script src="../static/js/tiy-ng-controller-coco.js"></script> <!-- uses the libraries to call to the JS controller-->
+    <script src="js/tiy-ng-controller-coco.js"></script>
+
+</head>
+<body ng-controller="CocoController">
+
+<br/><br/>
+
+How many bars of chocolate do you have?<br/>
+
+<input type="text" placeholder="Number of Bigs" ng-model="userInput.numBigs"><br/>
+{{numBigs}}
+<br/>
+
+<input type="text" placeholder="Number of Smalls" ng-model="userInput.numSmalls"><br/>
+{{numSmalls}}
+<br/>
+
+<input type="text" placeholder="Goal" ng-model="userInput.goalNum"><br/>
+{{goalNum}}
+<br/>
+
+<div>
+    <br/>
+    <input type="button" ng-click="printChocolate(userInput.numBigs, userInput.numSmalls, goalNum)" value="Print This Chocolate to the console"/>
+    <br/>
+</div>
+
+<div>
+    <br/>
+    <input type="button" ng-click="makeChocolate(userInput.numBigs, userInput.numSmalls, userInput.goalNum)" value="Make Chocolate"/>
+    <br/>
+</div>
+
+<div ng-repeat="chocIndex in makeArray(userInput.numBigs)">
+<div class="choc-big-bar">{{chocIndex + 1}}</div><!--can ng repeat through all of our big bars of chocolate-->
+</div>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+<div ng-repeat="chocIndex in makeArray(userInput.numSmalls)">
+    <div class="choc-small-bar">{{chocIndex + 1}}</div><!--can ng repeat through all of our big bars of chocolate-->
+</div>
+
+<br/><br/><br/><br/><br/><br/><br/>
+
+<div ng-if="solver.hasSolution">
+    New inventory:<br/>
+    <div ng-repeat="chocIndex in makeArray(solver.bigs)">
+        <div class="choc-big-bar">{{chocIndex + 1}}</div>
+    </div>
+
+    <div ng-repeat="chocIndex in makeArray(solver.smalls)">
+        <div class="choc-small-bar">{{chocIndex + 1}}</div>
+    </div>
+</div>
+
+<div ng-if="solver.hasSolution == false">
+    No chocolate can be made from this content.
+</div>
+
+</body>
+</html>
